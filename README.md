@@ -1,2 +1,1 @@
-# DevOps-Git
-Learn Git
+Automating AWS with Terraform

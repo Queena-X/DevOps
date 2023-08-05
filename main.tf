@@ -36,6 +36,7 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
+/*
 resource "aws_eip" "nat" {
   count  = 2
   domain = "vpc"
@@ -96,3 +97,4 @@ resource "aws_route_table_association" "private" {
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private[count.index].id
 }
+*/

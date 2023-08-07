@@ -1,11 +1,11 @@
 data "aws_ami" "aws-linux" {
-  executable_users = ["self"]
-  most_recent      = true
-  owners           = ["792178241469"]
+  most_recent = true
+  owners      = ["137112412989"]
 
   filter {
     name   = "name"
-    values = ["Amazon Linux 2023 AMI"]
+    values = ["al2023-ami-2023.1.20230725.0-kernel-6.1-x86_64"]
+    //values = ["amzn2-ami-kernel-*"]
   }
 
   filter {

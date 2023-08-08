@@ -92,7 +92,7 @@ resource "aws_security_group" "rds" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.vpc_cidr[0]]
+    cidr_blocks = [var.vpc_cidr]
   }
 
   egress {

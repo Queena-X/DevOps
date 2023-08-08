@@ -24,6 +24,7 @@ resource "aws_instance" "web" {
   associate_public_ip_address = true
   key_name                    = "main"
   vpc_security_group_ids      = [aws_security_group.web.id]
+  user_data                   = "${file("init.sh")}"
   subnet_id                   = aws_subnet.public[0].id
 
   tags = {
@@ -63,6 +64,7 @@ resource "aws_instance" "rds" {
   associate_public_ip_address = true
   key_name                    = "main"
   vpc_security_group_ids      = [aws_security_group.rds.id]
+  user_data                   = "${file("init.sh")}"
   subnet_id                   = aws_subnet.private[0].id
 
   tags = {
@@ -95,4 +97,6 @@ resource "aws_security_group" "rds" {
     Name = "rds"
   }
 }
+
+
 

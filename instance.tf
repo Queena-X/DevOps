@@ -25,6 +25,7 @@ resource "aws_instance" "web" {
   key_name                    = "main"
   vpc_security_group_ids      = [aws_security_group.web.id]
   subnet_id                   = aws_subnet.public[0].id
+  user_data                   = "${file("init.sh")}"
 
   tags = {
     Name = "${var.env_code}-web"
@@ -45,6 +46,15 @@ resource "aws_security_group" "web" {
     cidr_blocks = ["108.255.250.119/32"]
   }
 
+  ingress {
+    description = "HTTP ingress"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "http"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -64,6 +74,7 @@ resource "aws_instance" "rds" {
   key_name                    = "main"
   vpc_security_group_ids      = [aws_security_group.rds.id]
   subnet_id                   = aws_subnet.private[0].id
+  user_data                   = "${file("init.sh")}"
 
   tags = {
     Name = "${var.env_code}-rds"
@@ -81,7 +92,7 @@ resource "aws_security_group" "rds" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [var.private_cidr[0]]
+    cidr_blocks = [var.vpc_cidr]
   }
 
   egress {
@@ -95,4 +106,6 @@ resource "aws_security_group" "rds" {
     Name = "rds"
   }
 }
+
+
 

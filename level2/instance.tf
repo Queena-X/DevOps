@@ -24,8 +24,8 @@ resource "aws_instance" "web" {
   associate_public_ip_address = true
   key_name                    = "main"
   vpc_security_group_ids      = [aws_security_group.web.id]
-  subnet_id                   = aws_subnet.public[0].id
-  user_data                   = "${file("init.sh")}"
+  subnet_id                   = data.terraform_remote_state.leve1.outputs.public_subnet_id[0]
+  user_data                   = file("init.sh")
 
   tags = {
     Name = "${var.env_code}-web"
@@ -36,7 +36,7 @@ resource "aws_security_group" "web" {
 
   name        = "web"
   description = "Allow TLS inbound traffic"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = data.terraform_remote_state.leve1.outputs.vpc_id
 
   ingress {
     description = "SSH from PUBLIC"
@@ -73,8 +73,8 @@ resource "aws_instance" "rds" {
   associate_public_ip_address = true
   key_name                    = "main"
   vpc_security_group_ids      = [aws_security_group.rds.id]
-  subnet_id                   = aws_subnet.private[0].id
-  user_data                   = "${file("init.sh")}"
+  subnet_id                   = data.terraform_remote_state.leve1.outputs.private_subnet_id[0]
+  user_data                   = file("init.sh")
 
   tags = {
     Name = "${var.env_code}-rds"
@@ -85,7 +85,7 @@ resource "aws_security_group" "rds" {
 
   name        = "rds"
   description = "Allow TLS inbound traffic"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = data.terraform_remote_state.leve1.outputs.vpc_id
 
   ingress {
     description = "SSH from private instance"
@@ -106,6 +106,7 @@ resource "aws_security_group" "rds" {
     Name = "rds"
   }
 }
+
 
 
 

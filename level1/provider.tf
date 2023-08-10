@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
     bucket         = "terraform-devops-learn"
-    key            = "level1/terraform.tfstate"
+    key            = "myapp/dev/terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "terraform-devops"
   }

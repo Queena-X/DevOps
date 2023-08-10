@@ -19,7 +19,7 @@ variable "public_cidr" {
 }
 
 variable "ami" {
-  type = string
+  type    = string
   default = "ami-0f34c5ae932e6f0e4"
 }
 

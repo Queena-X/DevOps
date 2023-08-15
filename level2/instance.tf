@@ -95,6 +95,14 @@ resource "aws_security_group" "rds" {
     cidr_blocks = [var.vpc_cidr]
   }
 
+  ingress {
+    description     = "SSH alb private instance"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_lb.public-alb.id]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

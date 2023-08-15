@@ -1,27 +1,9 @@
-data "aws_ami" "aws-linux" {
-  most_recent = true
-  owners      = ["137112412989"]
-
-  filter {
-    name   = "name"
-    values = ["al2023-ami-2023.1.20230725.0-kernel-6.1-x86_64"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
 resource "aws_launch_template" "web" {
-  name_prefix   = "web"
-  image_id      = data.aws_ami.aws-linux.id
-  instance_type = "t2.micro"
+  name_prefix          = "${var.env_code}-web"
+  image_id             = data.aws_ami.aws-linux.id
+  instance_type        = var.instance_type
+  security_group_names = [aws_security_group.web]
+  key_name             = "main"
 }
 
 resource "aws_autoscaling_group" "bar" {
@@ -33,6 +15,7 @@ resource "aws_autoscaling_group" "bar" {
   health_check_type    = "EC2"
   target_group_arns    = [aws_lb_target_group.ec2-alb-tg.arn]
   termination_policies = ["OldestLaunchTemplate"]
+  vpc_zone_identifier  = [data.terraform_remote_state.leve1.outputs.public_subnet_id]
 
   launch_template {
     id      = aws_launch_template.web.id

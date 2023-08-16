@@ -24,12 +24,12 @@ resource "aws_security_group" "alb-sg" {
   }
 }
 
-resource "aws_lb" "private-alb" {
-  name               = "private-alb"
+resource "aws_lb" "public-alb" {
+  name               = "public-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb-sg.id]
-  subnets            = [for subnet in data.terraform_remote_state.leve1.outputs.private_subnet_id : subnet.id]
+  subnets            = [for subnet in data.terraform_remote_state.leve1.outputs.public_subnet_id : subnet.id]
 
   enable_deletion_protection = false
 
@@ -57,7 +57,7 @@ resource "aws_lb_target_group" "ec2-alb-tg" {
 }
 
 resource "aws_lb_listener" "back-end" {
-  load_balancer_arn = aws_lb.private-alb.arn
+  load_balancer_arn = aws_lb.public-alb.arn
   port              = "80"
   protocol          = "HTTP"
 

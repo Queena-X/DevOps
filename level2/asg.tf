@@ -4,6 +4,7 @@ resource "aws_launch_template" "web" {
   instance_type        = var.instance_type
   security_group_names = [aws_security_group.web]
   key_name             = "main"
+  user_data            = file("init.sh")
 }
 
 resource "aws_autoscaling_group" "bar" {

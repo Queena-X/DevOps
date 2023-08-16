@@ -15,7 +15,7 @@ resource "aws_autoscaling_group" "bar" {
   health_check_type    = "EC2"
   target_group_arns    = [aws_lb_target_group.ec2-alb-tg.arn]
   termination_policies = ["OldestLaunchTemplate"]
-  vpc_zone_identifier  = [data.terraform_remote_state.leve1.outputs.public_subnet_id]
+  vpc_zone_identifier  = [data.terraform_remote_state.leve1.outputs.private_subnet_id]
 
   launch_template {
     id      = aws_launch_template.web.id

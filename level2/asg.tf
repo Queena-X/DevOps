@@ -5,6 +5,7 @@ resource "aws_launch_template" "web" {
   security_group_names = [aws_security_group.web]
   key_name             = "main"
   user_data            = file("init.sh")
+  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
 }
 
 resource "aws_autoscaling_group" "bar" {

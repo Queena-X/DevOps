@@ -5,7 +5,7 @@ resource "aws_launch_template" "web" {
   security_group_names = [aws_security_group.rds]
   user_data            = file("init.sh")
   iam_instance_profile {
-    arn = aws_iam_instance_profile.ec2_profile.name
+    arn = arn = aws_iam_instance_profile.ec2_profile.arn
   }
 }
 

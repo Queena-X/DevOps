@@ -2,10 +2,11 @@ resource "aws_launch_template" "web" {
   name_prefix          = "${var.env_code}-web"
   image_id             = data.aws_ami.aws-linux.id
   instance_type        = var.instance_type
-  security_group_names = [aws_security_group.web]
-  key_name             = "main"
+  security_group_names = [aws_security_group.rds]
   user_data            = file("init.sh")
-  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name
+  iam_instance_profile {
+    arn = aws_iam_instance_profile.ec2_profile.name
+  }
 }
 
 resource "aws_autoscaling_group" "bar" {
@@ -24,7 +25,4 @@ resource "aws_autoscaling_group" "bar" {
     version = "$Latest"
   }
 
-  tag = {
-    Name = "web-asg"
-  }
 }

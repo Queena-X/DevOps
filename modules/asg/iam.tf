@@ -1,7 +1,7 @@
 resource "aws_iam_role" "ec2_role" {
   name = "ec2_role"
 
-  assume_role_policy  = file("ec2-assume-policy.json")
+  assume_role_policy  = file("${path.module}/ec2-assume-policy.json")
   managed_policy_arns = ["arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"]
 
   tags = {

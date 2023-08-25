@@ -5,10 +5,10 @@ resource "aws_security_group" "alb-sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    description = "HTTP ingress"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "http"
+    description = "HTTPS ingress"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -58,8 +58,9 @@ resource "aws_lb_target_group" "ec2-alb-tg" {
 
 resource "aws_lb_listener" "back-end" {
   load_balancer_arn = aws_lb.public-alb.arn
-  port              = "80"
-  protocol          = "HTTP"
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn = aws_acm_certificate.cert.arn
 
   default_action {
     type             = "forward"
